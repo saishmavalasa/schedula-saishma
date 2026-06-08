@@ -24,10 +24,9 @@ import { PatientModule } from './patient/patient.module';
       database: process.env.DB_NAME,
       autoLoadEntities: true,
 
-      // ✅ ADD THIS
+      
       synchronize: true,
-      dropSchema: false,   // 🔥 THIS LINE FIXES YOUR ERROR
-    }),
+      dropSchema: false,  
 
     AuthModule,
     DoctorModule,

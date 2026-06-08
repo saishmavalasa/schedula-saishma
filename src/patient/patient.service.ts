@@ -48,7 +48,7 @@ export class PatientService {
     return patient;
   }
 
-  async update(user: any, dto: UpdatePatientDto) {
+  async update(user: { id: number }, dto: UpdatePatientDto) {
     const patient = await this.patientRepo.findOne({
       where: { user: { id: user.id } },
     });

@@ -16,7 +16,7 @@ export class DoctorService {
     private doctorRepo: Repository<Doctor>,
   ) {}
 
-  async create(user: any, dto: CreateDoctorDto) {
+  async create(user: { id: number }, dto: CreateDoctorDto) {
     const existing = await this.doctorRepo.findOne({
       where: { user: { id: user.id } },
     });
@@ -33,11 +33,10 @@ export class DoctorService {
     return this.doctorRepo.save(doctor);
   }
 
-  async findOne(user: any) {
+  async findOne(user: { id: number }) {
     const doctor = await this.doctorRepo.findOne({
       where: { user: { id: user.id } },
 
-      // ✅ FIXED HERE
       relations: {
         user: true,
       },
@@ -50,7 +49,7 @@ export class DoctorService {
     return doctor;
   }
 
-  async update(user: any, dto: UpdateDoctorDto) {
+  async update(user: { id: number }, dto: UpdateDoctorDto) {
     const doctor = await this.doctorRepo.findOne({
       where: { user: { id: user.id } },
     });
