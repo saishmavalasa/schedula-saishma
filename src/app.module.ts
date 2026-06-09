@@ -2,9 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -17,7 +14,6 @@ import { PatientModule } from './patient/patient.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -29,7 +25,6 @@ import { PatientModule } from './patient/patient.module';
       synchronize: false,
       dropSchema: false,
     }),
-
     AuthModule,
     DoctorModule,
     PatientModule,
@@ -37,5 +32,4 @@ import { PatientModule } from './patient/patient.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
 export class AppModule {}
