@@ -1,0 +1,17 @@
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { RolesGuard } from '../common/guards/roles.guard';
+import { Roles } from '../common/decorators/roles.decorator';
+import { Role } from '../enums/role.enum';
+
+@Controller('patient')
+export class PatientController {
+    @Get('profile')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.PATIENT)
+    getProfile() {
+        return {
+            message: 'Welcome Patient',
+        };
+    }
+}
