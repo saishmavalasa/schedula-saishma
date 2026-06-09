@@ -5,9 +5,11 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
 import { Doctor } from './entities/doctor.entity';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
+import { GetDoctorsDto } from './dto/get-doctors.dto';
 
 @Injectable()
 export class DoctorService {
@@ -36,7 +38,6 @@ export class DoctorService {
   async findOne(user: { id: number }) {
     const doctor = await this.doctorRepo.findOne({
       where: { user: { id: user.id } },
-
       relations: {
         user: true,
       },
@@ -59,6 +60,78 @@ export class DoctorService {
     }
 
     Object.assign(doctor, dto);
+
     return this.doctorRepo.save(doctor);
+  }
+  async getDoctors(query: GetDoctorsDto) {
+    const {
+      specialization,
+      search,
+      page = 1,
+      limit = 10,
+      availability,
+    } = query;
+
+    const qb = this.doctorRepo.createQueryBuilder('doctor');
+
+    if (specialization) {
+      qb.andWhere(
+        'LOWER(doctor.specialization) = LOWER(:specialization)',
+        { specialization },
+      );
+    }
+
+    if (search) {
+      qb.andWhere(
+        'LOWER(doctor.fullName) LIKE LOWER(:search)',
+        {
+          search: `%${search}%`,
+        },
+      );
+    }
+
+    if (availability) {
+      qb.andWhere(
+        'LOWER(doctor.availability) = LOWER(:availability)',
+        {
+          availability,
+        },
+      );
+    }
+
+    qb.skip((page - 1) * limit);
+    qb.take(limit);
+
+    const [doctors, total] =
+      await qb.getManyAndCount();
+
+    if (!doctors.length) {
+      return {
+        message: 'No doctors found',
+        data: [],
+        total: 0,
+      };
+    }
+
+    return {
+      data: doctors,
+      total,
+      page,
+      limit,
+    };
+  }
+
+  async getDoctorById(id: number) {
+    const doctor = await this.doctorRepo.findOne({
+      where: { id },
+    });
+
+    if (!doctor) {
+      throw new NotFoundException(
+        'Doctor not found',
+      );
+    }
+
+    return doctor;
   }
 }
