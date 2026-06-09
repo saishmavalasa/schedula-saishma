@@ -16,7 +16,7 @@ export class PatientService {
     private patientRepo: Repository<Patient>,
   ) {}
 
-  async create(user: any, dto: CreatePatientDto) {
+  async create(user: {id: number}, dto: CreatePatientDto) {
     const existing = await this.patientRepo.findOne({
       where: { user: { id: user.id } },
     });
@@ -33,7 +33,7 @@ export class PatientService {
     return await this.patientRepo.save(patient);
   }
 
-  async findOne(user: any) {
+  async findOne(user: { id: number }) {
     const patient = await this.patientRepo.findOne({
       where: { user: { id: user.id } },
       relations: {
