@@ -6,7 +6,6 @@ import {
   MinLength,
 } from 'class-validator';
 
-// ✅ FIXED PATH
 import { Role } from '../../enums/role.enum';
 
 export class SignupDto {

@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
 
-// ✅ FIXED PATH
 import { Role } from '../../enums/role.enum';
 
 import { Doctor } from '../../doctor/entities/doctor.entity';

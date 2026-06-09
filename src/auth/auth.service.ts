@@ -3,7 +3,14 @@ import {
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
+import {
+    BadRequestException,
+    Injectable,
+    UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -32,12 +39,15 @@ export class AuthService {
         const hashedPassword = await bcrypt.hash(body.password, 10);
 
         const user = this.userRepository.create({
+        const user = this.userRepository.create({
             name: body.name,
             email: body.email,
             password: hashedPassword,
             role: body.role,
         });
+        });
 
+        await this.userRepository.save(user);
         await this.userRepository.save(user);
 
         return {
