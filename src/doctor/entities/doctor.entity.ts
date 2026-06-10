@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
+
 import { User } from '../../auth/entities/user.entity';
 
 @Entity()
@@ -18,7 +25,7 @@ export class Doctor {
   @Column()
   qualification: string;
 
-  @Column()
+  @Column('decimal')
   consultationFee: number;
 
   @Column()
@@ -27,7 +34,7 @@ export class Doctor {
   @Column({ nullable: true })
   profileDetails: string;
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, (user) => user.doctor, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User;
 }

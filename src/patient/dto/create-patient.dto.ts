@@ -1,8 +1,7 @@
-import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber, IsOptional } from 'class-validator';
 
 export class CreatePatientDto {
   @IsString()
-  @IsNotEmpty()
   fullName: string;
 
   @IsNumber()
@@ -12,5 +11,9 @@ export class CreatePatientDto {
   gender: string;
 
   @IsString()
-  contact: string;
+  contactDetails: string;
+
+  @IsOptional()
+  @IsString()
+  basicHealthInfo?: string;
 }

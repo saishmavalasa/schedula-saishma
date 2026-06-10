@@ -1,7 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
-
 import { Role } from '../../enums/role.enum';
-
 import { Doctor } from '../../doctor/entities/doctor.entity';
 import { Patient } from '../../patient/entities/patient.entity';
 

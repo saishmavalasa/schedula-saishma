@@ -24,6 +24,7 @@ import { PatientModule } from './patient/patient.module';
       database: process.env.DB_NAME,
       autoLoadEntities: true,
       synchronize: false,
+      logging: true,
       dropSchema: false,
       ssl: {
         rejectUnauthorized: false,
