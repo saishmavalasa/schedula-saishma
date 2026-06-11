@@ -20,9 +20,9 @@ export class User {
   @Column({ type: 'enum', enum: Role })
   role: Role;
 
-  @OneToOne(() => Doctor, (doctor) => doctor.user)
-  doctor: Doctor;
+ // @OneToOne(() => Doctor, (doctor) => doctor.user)
+//  doctor: Doctor;
 
-  @OneToOne(() => Patient, (patient) => patient.user)
-  patient: Patient;
+ // @OneToOne(() => Patient, (patient) => patient.user)
+ // patient: Patient;
 }
