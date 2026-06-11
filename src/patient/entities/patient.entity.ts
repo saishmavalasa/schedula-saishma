@@ -29,7 +29,7 @@ export class Patient {
   basicHealthInfo: string;
 
   
-  @OneToOne(() => User, (user) => user.patient, { onDelete: 'CASCADE' })
+@OneToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User;
 }

@@ -1,10 +1,13 @@
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
+<<<<<<< HEAD
 import { User } from './auth/entities/user.entity';
 import { Doctor } from './doctor/entities/doctor.entity';
 import { Patient } from './patient/entities/patient.entity';
 import { RecurringAvailability } from "./availability/entities/recurring-availability.entity";
 import { CustomAvailability } from "./availability/entities/custom-availability.entity";
+=======
+>>>>>>> 0565ff7 (final fix: correct entities + availability module)
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -14,6 +17,7 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
 
+<<<<<<< HEAD
   entities: [
     User,
   Doctor,
@@ -21,6 +25,11 @@ export const AppDataSource = new DataSource({
   RecurringAvailability,
   CustomAvailability,
 ],
+=======
+  
+  entities: [__dirname + '/**/*.entity{.ts,.js}'],
+
+>>>>>>> 0565ff7 (final fix: correct entities + availability module)
   migrations: [__dirname + '/migrations/*{.ts,.js}'],
 
   synchronize: false,

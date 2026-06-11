@@ -34,7 +34,7 @@ export class Doctor {
   @Column({ nullable: true })
   profileDetails: string;
 
-  @OneToOne(() => User, (user) => user.doctor, { onDelete: 'CASCADE' })
+ @OneToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn()
   user: User;
 }
