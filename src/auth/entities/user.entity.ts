@@ -20,15 +20,9 @@ export class User {
   @Column({ type: 'enum', enum: Role })
   role: Role;
 
-<<<<<<< HEAD
- // @OneToOne(() => Doctor, (doctor) => doctor.user)
-//  doctor: Doctor;
-=======
-  
-  @OneToOne(() => Doctor, (doctor) => doctor.user)
-  doctor: Doctor;
->>>>>>> 0565ff7 (final fix: correct entities + availability module)
+ @OneToOne(() => Doctor, (doctor) => doctor.user)
+ doctor: Doctor;
 
- // @OneToOne(() => Patient, (patient) => patient.user)
- // patient: Patient;
+  @OneToOne(() => Patient, (patient) => patient.user)
+ patient: Patient;
 }
