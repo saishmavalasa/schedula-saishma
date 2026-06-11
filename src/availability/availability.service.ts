@@ -3,6 +3,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { RecurringAvailability } from "./entities/recurring-availability.entity";
 import { CustomAvailability } from "./entities/custom-availability.entity";
+import { CreateRecurringDto } from "./dto/create-recurring.dto";
+import { CreateOverrideDto } from "./dto/create-override.dto";
 
 @Injectable()
 export class AvailabilityService {
@@ -13,15 +15,20 @@ export class AvailabilityService {
     @InjectRepository(CustomAvailability)
     private customRepo: Repository<CustomAvailability>,
   ) {}
+
   private isOverlapping(
     startA: string,
     endA: string,
     startB: string,
     endB: string,
-  ) {
+  ): boolean {
     return startA < endB && startB < endA;
   }
-  async createRecurring(dto: any, doctorId: string) {
+
+  async createRecurring(
+    dto: CreateRecurringDto,
+    doctorId: string,
+  ): Promise<RecurringAvailability> {
     const { dayOfWeek, startTime, endTime } = dto;
 
     if (startTime >= endTime) {
@@ -52,12 +59,19 @@ export class AvailabilityService {
       endTime,
     });
   }
-  async getRecurring(doctorId: string) {
+
+  async getRecurring(
+    doctorId: string,
+  ): Promise<RecurringAvailability[]> {
     return this.recurringRepo.find({
       where: { doctorId },
     });
   }
-  async createOverride(dto: any, doctorId: string) {
+
+  async createOverride(
+    dto: CreateOverrideDto,
+    doctorId: string,
+  ): Promise<CustomAvailability> {
     const { date, startTime, endTime } = dto;
 
     if (startTime >= endTime) {
@@ -89,10 +103,12 @@ export class AvailabilityService {
     });
   }
 
-  async getAvailabilityByDate(doctorId: string, date: string) {
+  async getAvailabilityByDate(
+    doctorId: string,
+    date: string,
+  ): Promise<CustomAvailability[] | RecurringAvailability[]> {
     const dayOfWeek = new Date(date).getDay();
 
-    // 1. Check override first (HIGH PRIORITY)
     const overrides = await this.customRepo.find({
       where: { doctorId, date },
     });
